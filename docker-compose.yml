@@ -38,3 +38,20 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
       - ./docker/mysql/my_conf:/etc/mysql/conf.d:ro
+
+  db-test:
+    image: mysql:8.0
+    container_name: db-test
+    environment:
+      MYSQL_DATABASE: syi_db_test
+      MYSQL_USER: syi_test
+      MYSQL_PASSWORD: syi_test
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db-test/data:/var/lib/mysql
+      - ./docker/db-test/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db-test/sql:/docker-entrypoint-initdb.d
+    ports:
+      - 3000:3306
