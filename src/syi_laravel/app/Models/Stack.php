@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class List extends Model
+class Stack extends Model
 {
     public function folders()
     {

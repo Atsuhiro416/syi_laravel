@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Folder extends Model
 {
-    public function lists()
+    public function stacks()
     {
-        return $this->belongsToMany('App/Models/List')->withTimestamps();
+        return $this->belongsToMany('App/Models/Stack')->withTimestamps();
     }
 }
