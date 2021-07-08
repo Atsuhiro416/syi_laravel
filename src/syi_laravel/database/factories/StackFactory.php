@@ -7,9 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Stack::class, function (Faker $faker) {
     return [
-        'name' => $faker->sentence(rand(1,50)),
+        'name' => $faker->sentence(rand(1,20)),
         'link' => $faker->url,
         'comment' => $faker->realText(150),
-        'user_id' => rand(1,10),
+        'user_id' => factory(App\Models\User::class),
     ];
 });
