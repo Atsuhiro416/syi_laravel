@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFolderListTable extends Migration
+class CreateFolderStackTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateFolderListTable extends Migration
      */
     public function up()
     {
-        Schema::create('folder_list', function (Blueprint $table) {
+        Schema::create('folder_stack', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('list_id');
+            $table->unsignedBigInteger('stack_id');
             $table->unsignedBigInteger('folder_id');
-            $table->foreign('list_id')->references('id')->on('lists')->onDelete('cascade');
+            $table->foreign('stack_id')->references('id')->on('stacks')->onDelete('cascade');
             $table->foreign('folder_id')->references('id')->on('folders')->onDelete('cascade');
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateFolderListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('folder_list');
+        Schema::dropIfExists('folder_stack');
     }
 }

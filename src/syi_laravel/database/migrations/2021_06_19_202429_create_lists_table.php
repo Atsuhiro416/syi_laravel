@@ -13,6 +13,7 @@ class CreateListsTable extends Migration
      */
     public function up()
     {
+        //マイグレーション時に"stacks"にrenameされます
         Schema::create('lists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -20,7 +21,7 @@ class CreateListsTable extends Migration
             $table->string('comment')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

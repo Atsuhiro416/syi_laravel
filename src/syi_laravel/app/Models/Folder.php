@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Folder extends Model
 {
-    public function lists()
+    public function user()
     {
-        return $this->belongsToMany('App/Models/List')->withTimestamps();
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function stacks()
+    {
+        return $this->belongsToMany('App\Models\Stack')->withTimestamps();
     }
 }

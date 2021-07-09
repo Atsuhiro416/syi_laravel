@@ -37,13 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function lists()
+    public function stacks()
     {
-        return $this->hasMany('App/Models/List');
+        return $this->hasMany('App\Models\Stack');
     }
 
     public function folders()
     {
-        return $this->hasMany('App/Models/Folder');
+        return $this->hasMany('App\Models\Folder');
     }
 }
