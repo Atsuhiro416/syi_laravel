@@ -27,6 +27,7 @@ Route::middleware('auth:api')->group(function() {
 });
 
 Route::apiResource('/stacks', 'StackController');
+Route::apiResource('/folders', 'FolderController');
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
