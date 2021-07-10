@@ -10,7 +10,7 @@ use App\Models\User;
 
 class FolderTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
     /**
      * A basic feature test example.
      *
@@ -68,5 +68,25 @@ class FolderTest extends TestCase
         $response = $this->delete("/api/folders/{$item->id}");
         $response->assertStatus(200);
         $this->assertDeleted($item);
+    }
+
+    //以下から異常系テスト
+    public function testStoreFolderInputOverStrings()
+    {
+        $user = factory(User::class)->create();
+        $data = [
+            'name' =>  $this->faker->realText(300),
+            'user_id' => $user->id,
+        ];
+        $response = $this->post('/api/folders', $data);
+        $response->assertStatus(400)->assertJsonFragment([
+            'name' => ['入力できる文字数は250字以内です'],
+        ]);
+    }
+
+    public function testShowNonExistsFolder()
+    {
+        $response = $this->get('/api/folders/0');
+        $response->assertStatus(404);
     }
 }

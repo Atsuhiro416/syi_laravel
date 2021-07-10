@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FolderRequest;
 use App\Models\Folder;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class FolderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FolderRequest $request)
     {
         $folder = Folder::create($request->all());
         return response()->json([
@@ -58,7 +59,7 @@ class FolderController extends Controller
      * @param  \App\Folder  $folder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Folder $folder)
+    public function update(FolderRequest $request, Folder $folder)
     {
         $item = Folder::find($folder->id);
         if ($item) {
