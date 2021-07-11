@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FolderRequest;
 use App\Models\Folder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class FolderController extends Controller
@@ -45,10 +46,9 @@ class FolderController extends Controller
      */
     public function show(Folder $folder)
     {
-        $item = Folder::find($folder->id);
         return response()->json([
             'message' => 'フォルダー詳細取得',
-            'data' => $item,
+            'data' => $folder,
         ], 200);
     }
 
@@ -61,18 +61,11 @@ class FolderController extends Controller
      */
     public function update(FolderRequest $request, Folder $folder)
     {
-        $item = Folder::find($folder->id);
-        if ($item) {
-            $item->fill($request->all())->save();
-            return response()->json([
-                'message' => 'リストを更新しました。',
-                'data' => $item,
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => '該当するリストが存在しません。',
-            ], 404);
-        }
+        $folder->fill($request->all())->save();
+        return response()->json([
+            'message' => 'フォルダーを更新しました。',
+            'data' => $folder,
+        ], 200);
     }
 
     /**
@@ -83,15 +76,9 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
-        $item = Folder::destroy($folder->id);
-        if ($item) {
-            return response()->json([
-                'message' => 'フォルダーを削除しました。',
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => '該当するフォルダーがありません。',
-            ], 404);
-        }
+        $folder->delete();
+        return response()->json([
+            'message' => 'フォルダーを削除しました。',
+        ], 200);
     }
 }
