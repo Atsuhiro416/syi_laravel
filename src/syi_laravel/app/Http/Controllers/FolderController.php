@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FolderRequest;
 use App\Models\Folder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class FolderController extends Controller
 {
+
+    public function __construct(Folder $folder)
+    {
+        $this->folder = $folder;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +25,15 @@ class FolderController extends Controller
         return response()->json([
             'message' => 'フォルダー一覧を取得しました。',
             'data' => $folders,
+        ], 200);
+    }
+
+    public function indexFoldersStacks($folder_id)
+    {
+        $foldersStacks = Folder::find($folder_id)->stacks()->get();
+        return response()->json([
+            'message' => 'フォルダー内リストを一覧取得しました。',
+            'data' => $foldersStacks,
         ], 200);
     }
 
@@ -36,6 +50,22 @@ class FolderController extends Controller
             'message' => 'フォルダーを作成しました。',
             'data' => $folder,
         ], 201);
+    }
+
+    public function attachStackToFolder($folder_id, $stack_id)
+    {
+        $isFolderStack = $this->folder->isExistsFolderStack($folder_id, $stack_id);
+        //リレーションがすでに存在していた場合はコンフリクトを通知
+        if ($isFolderStack) {
+            return response()->json([
+                'message' => 'リストはすでに該当のフォルダーに入っています。',
+            ], 409);
+        }
+        $folder = Folder::find($folder_id);
+        $folder->stacks()->attach($stack_id);
+        return response()->json([
+            'message' => 'リストをフォルダーに追加しました。',
+        ], 200);
     }
 
     /**
@@ -79,6 +109,15 @@ class FolderController extends Controller
         $folder->delete();
         return response()->json([
             'message' => 'フォルダーを削除しました。',
+        ], 200);
+    }
+
+    public function detachStackToFolder($folder_id, $stack_id)
+    {
+        $folder = Folder::find($folder_id);
+        $folder->stacks()->detach($stack_id);
+        return response()->json([
+            'message' => 'リストをフォルダーから削除しました。',
         ], 200);
     }
 }
