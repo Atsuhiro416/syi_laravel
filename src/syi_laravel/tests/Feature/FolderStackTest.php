@@ -102,4 +102,24 @@ class FolderStackTest extends TestCase
             'stack_id' => $items['stack']->id,
         ]);
     }
+
+    //リスト詳細取得時にリレーションしているフォルダーも取得する
+    public function testShowStackWithRelatedFolder()
+    {
+        $items = $this->createUserStackFolder();
+        //$itemsで作成したfolder,stack間のリレーション
+        $items['folder']->stacks()->attach($items['stack']->id);
+        $folder = Folder::create([
+            'name' => $this->faker->sentence(rand(1,20)),
+            'user_id' => $items['user']->id,
+        ]);
+        //$itemsで作成したstackと新たに作った$folder間のリレーション
+        $items['stack']->folders()->attach($folder->id);
+
+        $response = $this->get("/api/stacks/{$items['stack']->id}");
+        $response->assertJsonFragment([
+            'name' => $items['folder']->name,
+            'name' => $folder->name,
+        ]);
+    }
 }

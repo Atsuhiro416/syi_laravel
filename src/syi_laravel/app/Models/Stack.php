@@ -24,4 +24,9 @@ class Stack extends Model
     {
         return Stack::find($id);
     }
+
+    public function showStackWithRelatedFolder($stack_id)
+    {
+        return Stack::with('folders:id,name')->where('id', $stack_id)->get();
+    }
 }

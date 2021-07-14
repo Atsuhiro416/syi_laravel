@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class StackController extends Controller
 {
+
+    public function __construct(Stack $stack)
+    {
+        $this->stack = $stack;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +51,7 @@ class StackController extends Controller
      */
     public function show(Stack $stack)
     {
-        $item = Stack::find($stack->id);
+        $item = $this->stack->showStackWithRelatedFolder($stack->id);
         if ($item) {
             return response()->json([
                 'message' => 'リスト詳細を取得しました。',
