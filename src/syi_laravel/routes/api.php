@@ -28,6 +28,9 @@ Route::middleware('auth:api')->group(function() {
 
 Route::apiResource('/stacks', 'StackController');
 Route::apiResource('/folders', 'FolderController');
+Route::get('/folders/{folder_id}/stacks', 'FolderController@indexFoldersStacks');
+Route::post('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@attachStackToFolder');
+Route::delete('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@detachStackToFolder');
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
