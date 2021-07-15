@@ -70,6 +70,13 @@ class FolderTest extends TestCase
         $this->assertDeleted($item);
     }
 
+    public function testIndexUsersFolders()
+    {
+        $item = $this->factoryFolder();
+        $response = $this->get("/api/users/{$item->user_id}/folders");
+        $response->assertStatus(200)->assertJsonFragment($item->toArray());
+    }
+
     //以下から異常系テスト
     public function testStoreFolderInputOverStrings()
     {

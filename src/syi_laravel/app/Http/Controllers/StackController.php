@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StackRequest;
 use App\Models\Stack;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StackController extends Controller
@@ -25,6 +26,15 @@ class StackController extends Controller
         return response()->json([
             'message' => 'リストを全件取得しました',
             'data' => $item,
+        ], 200);
+    }
+
+    public function indexUsersStacks($user_id)
+    {
+        $stacks = User::find($user_id)->stacks;
+        return response()->json([
+            'message' => 'リスト一覧です。',
+            'data' => $stacks,
         ], 200);
     }
 
