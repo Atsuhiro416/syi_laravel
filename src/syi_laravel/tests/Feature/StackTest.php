@@ -78,6 +78,13 @@ class StackTest extends TestCase
         $this->assertDeleted($item);
     }
 
+    public function testIndexUsersStacks()
+    {
+        $item = $this->factoryStack();
+        $response = $this->get("/api/users/{$item->user_id}/stacks");
+        $response->assertStatus(200)->assertJsonFragment($item->toArray());
+    }
+
     //以下から異常系テスト
     public function testStoreStackInputOverStrings()
     {

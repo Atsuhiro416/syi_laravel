@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StackRequest;
 use App\Models\Stack;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StackController extends Controller
@@ -25,6 +26,15 @@ class StackController extends Controller
         return response()->json([
             'message' => 'リストを全件取得しました',
             'data' => $item,
+        ], 200);
+    }
+
+    public function indexUsersStacks($user_id)
+    {
+        $stacks = User::find($user_id)->stacks;
+        return response()->json([
+            'message' => 'リスト一覧です。',
+            'data' => $stacks,
         ], 200);
     }
 
@@ -73,23 +83,11 @@ class StackController extends Controller
      */
     public function update(StackRequest $request, Stack $stack)
     {
-        $item = Stack::find($stack->id);
-        if ($item) {
-            $item->fill([
-                'name' => $request->name,
-                'link' => $request->link,
-                'comment' => $request->comment,
-            ])->save();
-            return response()->json([
-                'message' => 'リストを更新しました。',
-                'data' => $item,
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => '該当するリストが存在しません。',
-            ], 404);
-        }
-
+        $stack->fill($request->all())->save();
+        return response()->json([
+            'message' => 'リストを更新しました。',
+            'data' => $stack,
+        ], 200);
     }
 
     /**
@@ -100,15 +98,9 @@ class StackController extends Controller
      */
     public function destroy(Stack $stack)
     {
-        if (Stack::find($stack->id)) {
-            Stack::destroy($stack->id);
-            return response()->json([
-                'message' => '該当するリストを削除しました。',
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => '該当するリストが存在しません。',
-            ], 404);
-        }
+        $stack->delete();
+        return response()->json([
+            'message' => '該当するリストを削除しました。',
+        ], 200);
     }
 }

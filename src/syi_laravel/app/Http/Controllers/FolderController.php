@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FolderRequest;
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FolderController extends Controller
@@ -24,6 +25,15 @@ class FolderController extends Controller
         $folders = Folder::all();
         return response()->json([
             'message' => 'フォルダー一覧を取得しました。',
+            'data' => $folders,
+        ], 200);
+    }
+
+    public function indexUsersFolders($user_id)
+    {
+        $folders = User::find($user_id)->folders;
+        return response()->json([
+            'message' => 'リスト一覧です。',
             'data' => $folders,
         ], 200);
     }
