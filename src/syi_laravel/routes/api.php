@@ -24,16 +24,17 @@ Route::middleware('auth:api')->group(function() {
     'show', 'update', 'destroy'
   ]);
   Route::post('/logout', 'AuthController@logout');
+
+  Route::apiResource('/stacks', 'StackController');
+  Route::get('/users/{user_id}/stacks', 'StackController@indexUsersStacks');
+
+  Route::apiResource('/folders', 'FolderController');
+  Route::get('/users/{user_id}/folders', 'FolderController@indexUsersFolders');
+  Route::get('/folders/{folder_id}/stacks', 'FolderController@indexFoldersStacks');
+  Route::post('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@attachStackToFolder');
+  Route::delete('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@detachStackToFolder');
 });
 
-Route::apiResource('/stacks', 'StackController');
-Route::get('/users/{user_id}/stacks', 'StackController@indexUsersStacks');
-
-Route::apiResource('/folders', 'FolderController');
-Route::get('/users/{user_id}/folders', 'FolderController@indexUsersFolders');
-Route::get('/folders/{folder_id}/stacks', 'FolderController@indexFoldersStacks');
-Route::post('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@attachStackToFolder');
-Route::delete('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@detachStackToFolder');
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
