@@ -27,9 +27,11 @@ Route::middleware('auth:api')->group(function() {
 
   Route::apiResource('/stacks', 'StackController');
   Route::get('/users/{user_id}/stacks', 'StackController@indexUsersStacks');
+  Route::get('/users/{user_id}/stack-counts', 'StackController@getUserStackCounts');
 
   Route::apiResource('/folders', 'FolderController');
   Route::get('/users/{user_id}/folders', 'FolderController@indexUsersFolders');
+  Route::get('/users/{user_id}/folder-counts', 'FolderController@getUserFolderCounts');
   Route::get('/folders/{folder_id}/stacks', 'FolderController@indexFoldersStacks');
   Route::post('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@attachStackToFolder');
   Route::delete('/folders/{folder_id}/stacks/{stack_id}', 'FolderController@detachStackToFolder');

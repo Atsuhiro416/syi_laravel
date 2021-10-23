@@ -38,6 +38,15 @@ class StackController extends Controller
         ], 200);
     }
 
+    public function getUserStackCounts($user_id)
+    {
+        $stacks = User::find($user_id)->stacks->count();
+        return response()->json([
+            'message' => 'リスト数を取得しました。',
+            'counts' => $stacks,
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -29,12 +29,22 @@ class FolderController extends Controller
         ], 200);
     }
 
+
     public function indexUsersFolders($user_id)
     {
         $folders = User::find($user_id)->folders;
         return response()->json([
             'message' => 'リスト一覧です。',
             'data' => $folders,
+        ], 200);
+    }
+
+    public function getUserFolderCounts($user_id)
+    {
+        $folders = User::find($user_id)->folders->count();
+        return response()->json([
+            'message' => 'フォルダー数を取得しました。',
+            'counts' => $folders,
         ], 200);
     }
 
